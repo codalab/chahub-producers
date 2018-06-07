@@ -1,0 +1,2 @@
+export CHAHUB_API_URL=http://docker.for.mac.localhost:9000/api/v1/
+export CHAHUB_API_KEY=some-secret-key
