@@ -4,7 +4,7 @@ import requests
 import traceback
 
 
-CHAHUB_API_URL = os.environ.get('CHAHUB_API_URL')
+CHAHUB_API_URL = os.environ.get('CHAHUB_API_URL', 'https://chahub.org/')
 CHAHUB_API_KEY = os.environ.get('CHAHUB_API_KEY')
 
 
