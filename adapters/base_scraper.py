@@ -7,6 +7,9 @@ import traceback
 CHAHUB_API_URL = os.environ.get('CHAHUB_API_URL', 'https://chahub.org/')
 CHAHUB_API_KEY = os.environ.get('CHAHUB_API_KEY')
 
+assert CHAHUB_API_KEY, "CHAHUB_API_KEY environment variable is required, sign up for an API Key by posting an issue " \
+                       "so a Chahub admin can make one for you."
+
 
 class BaseScraper:
 
