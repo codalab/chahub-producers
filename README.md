@@ -32,3 +32,4 @@ Running on Heroku
 1. "Add a new job"
 1. Put in the command `python scrape.py`
 1. Run it once daily using a free dyno
+1. Save it
