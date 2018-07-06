@@ -1,3 +1,5 @@
+import os
+
 import maya
 import requests
 
@@ -6,6 +8,7 @@ from adapters.base_scraper import BaseScraper
 
 class KaggleAdapter(BaseScraper):
     base_url = "https://www.kaggle.com/competitions.json?page={page}"
+    api_key = os.environ.get('CHAHUB_API_KEY_KAGGLE')
 
     def begin(self):
         # There are <30 pages currently, I don't think we'll ever hit 9999
@@ -21,7 +24,6 @@ class KaggleAdapter(BaseScraper):
                         competitions += group["competitions"]
 
             for comp in competitions:
-                print("Sending competition: ID={competitionId} Title='{competitionTitle}'".format(**comp))
                 end = maya.when(comp["deadline"])
                 self.send_to_chahub("competitions/", {
                     "remote_id": comp["competitionId"],
@@ -39,6 +41,6 @@ class KaggleAdapter(BaseScraper):
                     "published": True,
                 })
 
-            # No more competitions!
+            # No more pages!
             if not competitions:
                 break
