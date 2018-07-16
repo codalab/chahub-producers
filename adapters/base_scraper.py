@@ -1,5 +1,7 @@
 import json
 import os
+from time import sleep
+
 import requests
 import traceback
 
@@ -27,3 +29,7 @@ class BaseScraper:
                 print(response.content)
         except:
             traceback.print_exc()
+
+        # One second sleep between sends, so we don't overwhelm Chahub. These scrapers are only ran
+        # once per day so this shouldn't be too impactful
+        sleep(1)

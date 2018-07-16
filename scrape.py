@@ -17,6 +17,7 @@ def scrape(adapter_name):
         raise Exception("Unknown adapter specified '{}'!".format(adapter_name))
 
     for scraper in scrapers:
+        print("Starting scraper: {}".format(scraper.__class__.__name__))
         scraper.begin()
 
 

@@ -17,6 +17,8 @@ class RampAdapter(BaseScraper):
 
         competition_elements = page.cssselect('li a[href^="/problems/"]')
 
+        print("Found {} competitions".format(len(competition_elements)))
+
         for comp in competition_elements:
             competition_entry_text = comp.getparent().text_content()
             participant_text = re.findall('number of participants = (\d+)', competition_entry_text, re.DOTALL)
@@ -33,7 +35,7 @@ class RampAdapter(BaseScraper):
             self.send_to_chahub("competitions/", {
                 "title": comp.text_content(),
                 "url": "https://www.ramp.studio{}".format(comp.attrib['href']),
-                "participant_count": sum([int(n) for n in participant_text]),
+                "participant_count": participant_count,
                 "html_text": None,
                 "active": True,
                 "published": True,
