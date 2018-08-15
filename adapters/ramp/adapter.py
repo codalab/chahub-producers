@@ -32,9 +32,14 @@ class RampAdapter(BaseScraper):
             # submission_text = re.findall('number of submissions = (\d+)', competition_entry_text, re.DOTALL)
             # submission_count = sum([int(n) for n in submission_text])
 
+            url = "https://www.ramp.studio{}".format(comp.attrib['href'])
+
             self.send_to_chahub("competitions/", {
+                # For RAMP we'll use the URL path as the 'remote_id':
+                #    https://www.ramp.studio/problems/storm_forecast -> `storm_forecast` is the remote_id
+                "remote_id": os.path.basename(url),
                 "title": comp.text_content(),
-                "url": "https://www.ramp.studio{}".format(comp.attrib['href']),
+                "url": url,
                 "participant_count": participant_count,
                 "html_text": None,
                 "active": True,

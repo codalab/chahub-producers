@@ -7,6 +7,7 @@ import traceback
 
 
 CHAHUB_API_URL = os.environ.get('CHAHUB_API_URL', 'https://chahub.org/api/v1/')
+CHAHUB_DEBUG = os.environ.get('CHAHUB_DEBUG', False)
 
 
 class BaseScraper:
@@ -22,7 +23,10 @@ class BaseScraper:
                 api_url=url,
                 **data
             ))
-            # print("Posting data: {}".format(data))
+
+            if CHAHUB_DEBUG:
+                print("Posting data: {}".format(data))
+
             response = requests.post(url, json.dumps(data), headers={
                 'Content-type': 'application/json',
                 'X-CHAHUB-API-KEY': self.api_key,
