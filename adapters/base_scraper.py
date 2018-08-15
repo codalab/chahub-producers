@@ -17,7 +17,11 @@ class BaseScraper:
 
         try:
             url = "{}{}".format(CHAHUB_API_URL, endpoint)
-            print("Sending competition to {api_url} with Title='{title}'".format(api_url=url, **data))
+            print("{class_name} :: Sending competition to {api_url} with Title='{title}'".format(
+                class_name=self.__class__.__name__,
+                api_url=url,
+                **data
+            ))
             # print("Posting data: {}".format(data))
             response = requests.post(url, json.dumps(data), headers={
                 'Content-type': 'application/json',
