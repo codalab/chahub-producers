@@ -18,14 +18,15 @@ class BaseScraper:
 
         try:
             url = "{}{}".format(CHAHUB_API_URL, endpoint)
-            print("{class_name} :: Sending competition to {api_url} with Title='{title}'".format(
-                class_name=self.__class__.__name__,
-                api_url=url,
-                **data
-            ))
+            print(f"{self.__class__.__name__} :: Sending {len(data)} {endpoint} to {CHAHUB_API_URL}")
+
+            if 'competitions' in endpoint:
+                print("Competition titles:")
+                for index, competition in enumerate(data):
+                    print(f"{index + 1}. {competition['title']}")
 
             if CHAHUB_DEBUG:
-                print("Posting data: {}".format(data))
+                print("[DEBUG] Posting data: {}".format(data))
 
             response = requests.post(url, json.dumps(data), headers={
                 'Content-type': 'application/json',

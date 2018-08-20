@@ -11,11 +11,12 @@ class KaggleAdapter(BaseScraper):
     api_key = os.environ.get('CHAHUB_API_KEY_KAGGLE')
 
     def begin(self):
+        competitions = []
         # There are <30 pages currently, I don't think we'll ever hit 9999
         for page in range(1, 9999):
             response = requests.get(self.base_url.format(page=page))
             data = response.json()
-            competitions = data["pagedCompetitionGroup"]["competitions"]
+            competition_data = data["pagedCompetitionGroup"]["competitions"]
 
             # get "grouped" competitions (tagged?)
             if data["fullCompetitionGroups"]:
@@ -23,9 +24,9 @@ class KaggleAdapter(BaseScraper):
                     if group["competitions"]:
                         competitions += group["competitions"]
 
-            for comp in competitions:
+            for comp in competition_data:
                 end = maya.when(comp["deadline"])
-                self.send_to_chahub("competitions/", {
+                competitions.append({
                     "remote_id": comp["competitionId"],
                     "title": comp["competitionTitle"].strip(),
                     "created_by": comp["organizationName"],
@@ -44,3 +45,5 @@ class KaggleAdapter(BaseScraper):
             # No more pages!
             if not competitions:
                 break
+
+        self.send_to_chahub("competitions/", competitions)

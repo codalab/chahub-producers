@@ -19,6 +19,8 @@ class RampAdapter(BaseScraper):
 
         print("Found {} competitions".format(len(competition_elements)))
 
+        competitions = []
+
         for comp in competition_elements:
             competition_entry_text = comp.getparent().text_content()
             participant_text = re.findall('number of participants = (\d+)', competition_entry_text, re.DOTALL)
@@ -34,7 +36,7 @@ class RampAdapter(BaseScraper):
 
             url = "https://www.ramp.studio{}".format(comp.attrib['href'])
 
-            self.send_to_chahub("competitions/", {
+            competitions.append({
                 # For RAMP we'll use the URL path as the 'remote_id':
                 #    https://www.ramp.studio/problems/storm_forecast -> `storm_forecast` is the remote_id
                 "remote_id": os.path.basename(url),
@@ -45,3 +47,4 @@ class RampAdapter(BaseScraper):
                 "active": True,
                 "published": True,
             })
+        self.send_to_chahub("competitions/", competitions)
