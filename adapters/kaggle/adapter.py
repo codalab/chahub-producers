@@ -11,12 +11,16 @@ class KaggleAdapter(BaseScraper):
     api_key = os.environ.get('CHAHUB_API_KEY_KAGGLE')
 
     def begin(self):
-        competitions = []
         # There are <30 pages currently, I don't think we'll ever hit 9999
         for page in range(1, 9999):
             response = requests.get(self.base_url.format(page=page))
             data = response.json()
             competition_data = data["pagedCompetitionGroup"]["competitions"]
+            competitions = []
+
+            # No more pages!
+            if not competition_data:
+                break
 
             # get "grouped" competitions (tagged?)
             if data["fullCompetitionGroups"]:
@@ -42,8 +46,4 @@ class KaggleAdapter(BaseScraper):
                     "published": True,
                 })
 
-            # No more pages!
-            if not competitions:
-                break
-
-        self.send_to_chahub("competitions/", competitions)
+            self.send_to_chahub("competitions/", competitions)

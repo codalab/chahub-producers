@@ -23,7 +23,7 @@ class BaseScraper:
             if 'competitions' in endpoint:
                 print("Competition titles:")
                 for index, competition in enumerate(data):
-                    print(f"{index + 1}. {competition['title']}")
+                    print(f"{index + 1}. {competition.get('title')}")
 
             if CHAHUB_DEBUG:
                 print("[DEBUG] Posting data: {}".format(data))
